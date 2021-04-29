@@ -128,15 +128,13 @@ extension MainTableViewCell {
           }
           
           localName.snp.makeConstraints {
-               $0.centerX.equalToSuperview()
-               $0.centerY.equalToSuperview()
+               $0.center.equalToSuperview()
                $0.width.equalToSuperview()
           }
           
           todayImage.snp.makeConstraints {
                //$0.height.equalTo(todayView.snp.height - todayView.safeAreaLayoutGuide.topAnchor)
-               $0.top.equalToSuperview().offset(layoutOffset)
-               $0.leading.equalToSuperview().offset(layoutOffset)
+               $0.top.leading.equalToSuperview().offset(layoutOffset)
                $0.bottom.equalToSuperview().offset(-layoutOffset)
                
                $0.width.equalTo(todayImage.snp.height).multipliedBy(1)
@@ -159,8 +157,7 @@ extension MainTableViewCell {
           }
           
           tomorrowImage.snp.makeConstraints {
-               $0.top.equalToSuperview().offset(layoutOffset)
-               $0.leading.equalToSuperview().offset(layoutOffset)
+               $0.top.leading.equalToSuperview().offset(layoutOffset)
                $0.bottom.equalToSuperview().offset(-layoutOffset)
                
                $0.width.equalTo(todayImage.snp.height).multipliedBy(1)

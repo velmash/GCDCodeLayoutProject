@@ -77,17 +77,17 @@ extension IndicatorTableViewCell {
           
           regionLabel.snp.makeConstraints { make in
                make.centerX.centerY.equalToSuperview()
-               make.width.height.equalToSuperview()
+               make.size.equalToSuperview()
           }
 
           todayLabel.snp.makeConstraints { make in
-               make.centerX.centerY.equalToSuperview()
+               make.center.equalToSuperview()
                make.width.height.equalToSuperview()
           }
 
           tomorowLabel.snp.makeConstraints { make in
-               make.centerX.centerY.equalToSuperview()
-               make.width.height.equalToSuperview()
+               make.center.equalToSuperview()
+               make.size.equalToSuperview()
           }
      }
 }
