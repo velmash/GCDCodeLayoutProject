@@ -49,6 +49,6 @@ extension ViewController {
      }
      
      @objc func updateUI(refresh: UIRefreshControl) {
-          self.weather.fetch(urlStr: urlStr)
+          self.weather.fetch(urlStr: weather.urlStr)
      }
 }

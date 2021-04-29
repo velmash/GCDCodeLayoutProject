@@ -15,8 +15,7 @@ class ViewController: UIViewController {
      @IBOutlet weak var indicator: UIActivityIndicatorView!
      
      let weather = WeatherDataSource.shared
-     let urlStr = "https://www.metaweather.com/api/location/"
-     let imgUrlStr = "https://www.metaweather.com/static/img/weather/png/"
+     
      
      lazy var localWeather: UILabel = {
           let lbl = UILabel(frame: .zero)
@@ -38,7 +37,7 @@ class ViewController: UIViewController {
           
           
           initRefresh()
-          weather.fetch(urlStr: urlStr)
+          weather.fetch(urlStr: weather.urlStr)
           setConstraint()
           
           NotificationCenter.default.addObserver(forName: WeatherDataSource.weatherInfoDidUpdate, object: nil, queue: .main) { _ in    // (noti) in
@@ -77,7 +76,7 @@ extension ViewController: UITableViewDataSource {
                return cell
           } else {
                let cell = self.weatherTable.dequeueReusableCell(withIdentifier: "MainCell", for: indexPath) as! MainTableViewCell
-               let imgStr = URL(string: imgUrlStr + "\(weather.info[indexPath.row].abbr).png")
+               let imgStr = URL(string: weather.imgUrlStr + "\(weather.info[indexPath.row].abbr).png")
                
                cell.localName.text = weather.region[indexPath.row].title
                cell.todayWeather.text = weather.info[0].name

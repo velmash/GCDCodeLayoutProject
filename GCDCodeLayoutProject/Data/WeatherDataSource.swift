@@ -13,6 +13,9 @@ class WeatherDataSource {
      static let shared = WeatherDataSource()
      static let weatherInfoDidUpdate = Notification.Name(rawValue: "weatherInfoDidUpdate")
      
+     let urlStr = "https://www.metaweather.com/api/location/"
+     let imgUrlStr = "https://www.metaweather.com/static/img/weather/png/"
+     
      let apiQueue = DispatchQueue(label: "ApiQueue")
      let group = DispatchGroup()
      
@@ -21,7 +24,6 @@ class WeatherDataSource {
      private(set) var images: [Data] = []
      
      private(set) var woeids: [Int] = []
-
 }
 
 
