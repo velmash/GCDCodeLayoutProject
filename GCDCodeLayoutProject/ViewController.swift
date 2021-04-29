@@ -36,11 +36,10 @@ class ViewController: UIViewController {
           
           weatherTable.alpha = 0.0
           
-          indicator.startAnimating()
-          initRefresh()
-          setConstraint()
           
+          initRefresh()
           weather.fetch(urlStr: urlStr)
+          setConstraint()
           
           NotificationCenter.default.addObserver(forName: WeatherDataSource.weatherInfoDidUpdate, object: nil, queue: .main) { _ in    // (noti) in
                UIView.animate(withDuration: 0.3) {
