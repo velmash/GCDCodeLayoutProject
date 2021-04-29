@@ -1,0 +1,83 @@
+//
+//  WeatherDataSource.swift
+//  GCDCodeLayoutProject
+//
+//  Created by 윤형찬 on 2021/04/29.
+//
+
+import Foundation
+import UIKit
+
+class WeatherDataSource {
+//MARK: - Properties
+     static let shared = WeatherDataSource()
+     static let weatherInfoDidUpdate = Notification.Name(rawValue: "weatherInfoDidUpdate")
+     
+     let apiQueue = DispatchQueue(label: "ApiQueue")
+     let group = DispatchGroup()
+     
+     private(set) var region: [Region] = []
+     private(set) var info: [Weather] = []
+     private(set) var images: [Data] = []
+     
+     private(set) var woeids: [Int] = []
+}
+
+
+//MARK: - Weather Data Fetch
+extension WeatherDataSource {
+     func fetch(urlStr: String) {
+          self.group.enter()
+          apiQueue.async {
+               guard let weatherURL = URL(string: urlStr) else {
+                    print("Can't not found this URL")
+                    return
+               }
+               
+               guard let jsonData = try! String(contentsOf: weatherURL).data(using: .utf8) else {
+                    print("Error : string -> Json")
+                    return
+               }
+               
+               do {
+                    self.region = try JSONDecoder().decode([Region].self, from: jsonData)
+                    for woeid in self.region {
+                         self.woeids.append(woeid.woeid)
+                    }
+                    self.group.leave()
+               } catch {
+                    print("error trying to convert data to JSON")
+               }
+          }
+          
+          
+          apiQueue.async {
+               for woeid in self.woeids {
+                    self.group.enter()
+                    let url = "https://www.metaweather.com/api/location/" + String(woeid)
+                    
+                    guard let infoURL = URL(string: url) else {
+                         print("Can't not found this URL")
+                         return
+                    }
+                    
+                    guard let infoData = try! String(contentsOf: infoURL).data(using: .utf8) else {
+                         print("Error : string -> Json")
+                         return
+                    }
+     
+                    do {
+                         let decodedData = try JSONDecoder().decode(Information.self, from: infoData)
+                         self.info.append(contentsOf: decodedData.consolidate)
+                         self.group.leave()
+                    } catch {
+                         print(error)
+                    }
+               }
+          }
+         
+          self.group.notify(queue: apiQueue) {
+               NotificationCenter.default.post(name: Self.weatherInfoDidUpdate, object: nil)
+          }
+     }
+}
