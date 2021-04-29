@@ -22,8 +22,6 @@ class WeatherDataSource {
      private(set) var region: [Region] = []
      private(set) var info: [Weather] = []
      private(set) var images: [Data] = []
-     
-     private(set) var woeids: [Int] = []
 }
 
 
@@ -45,20 +43,16 @@ extension WeatherDataSource {
                
                do {
                     self.region = try JSONDecoder().decode([Region].self, from: jsonData)
-                    for woeid in self.region {
-                         self.woeids.append(woeid.woeid)
-                    }
                     self.group.leave()
                } catch {
                     print("error trying to convert data to JSON")
                }
           }
           
-          
           apiQueue.async {
-               for woeid in self.woeids {
+               for woeid in self.region {
                     self.group.enter()
-                    let url = urlStr + String(woeid)
+                    let url = urlStr + String(woeid.woeid)
                     
                     guard let infoURL = URL(string: url) else {
                          print("Can't not found this URL")
