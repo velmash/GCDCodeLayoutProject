@@ -21,6 +21,8 @@ class WeatherDataSource {
      private(set) var images: [Data] = []
      
      private(set) var woeids: [Int] = []
+     
+     let infoUrl = "https://www.metaweather.com/api/location/"
 }
 
 
@@ -54,7 +56,7 @@ extension WeatherDataSource {
           apiQueue.async {
                for woeid in self.woeids {
                     self.group.enter()
-                    let url = "https://www.metaweather.com/api/location/" + String(woeid)
+                    let url = self.infoUrl + String(woeid)
                     
                     guard let infoURL = URL(string: url) else {
                          print("Can't not found this URL")

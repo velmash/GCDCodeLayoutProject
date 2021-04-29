@@ -16,6 +16,7 @@ class ViewController: UIViewController {
      
      let weather = WeatherDataSource.shared
      let urlStr = "https://www.metaweather.com/api/location/search/?query=se"
+     let imgUrlStr = "https://www.metaweather.com/static/img/weather/png/"
      
      lazy var localWeather: UILabel = {
           let lbl = UILabel(frame: .zero)
@@ -77,7 +78,7 @@ extension ViewController: UITableViewDataSource {
                return cell
           } else {
                let cell = self.weatherTable.dequeueReusableCell(withIdentifier: "MainCell", for: indexPath) as! MainTableViewCell
-               let imgStr = URL(string: "https://www.metaweather.com/static/img/weather/png/\(weather.info[indexPath.row].abbr).png")
+               let imgStr = URL(string: imgUrlStr + "\(weather.info[indexPath.row].abbr).png")
                
                cell.localName.text = weather.region[indexPath.row].title
                cell.todayWeather.text = weather.info[0].name
@@ -113,7 +114,7 @@ extension ViewController: UITableViewDelegate {
 extension ViewController {
      func setConstraint() {
           indicator.snp.makeConstraints {
-               indicator.style = .whiteLarge
+               indicator.style = UIActivityIndicatorView.Style.large
                indicator.color = .black
                
                $0.centerX.equalToSuperview()
