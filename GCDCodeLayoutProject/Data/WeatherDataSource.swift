@@ -21,17 +21,17 @@ class WeatherDataSource {
      private(set) var images: [Data] = []
      
      private(set) var woeids: [Int] = []
-     
-     let infoUrl = "https://www.metaweather.com/api/location/"
+
 }
 
 
 //MARK: - Weather Data Fetch
 extension WeatherDataSource {
+     
      func fetch(urlStr: String) {
           self.group.enter()
           apiQueue.async {
-               guard let weatherURL = URL(string: urlStr) else {
+               guard let weatherURL = URL(string: urlStr + "search/?query=se") else {
                     print("Can't not found this URL")
                     return
                }
@@ -56,7 +56,7 @@ extension WeatherDataSource {
           apiQueue.async {
                for woeid in self.woeids {
                     self.group.enter()
-                    let url = self.infoUrl + String(woeid)
+                    let url = urlStr + String(woeid)
                     
                     guard let infoURL = URL(string: url) else {
                          print("Can't not found this URL")

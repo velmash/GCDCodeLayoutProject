@@ -15,7 +15,7 @@ class ViewController: UIViewController {
      @IBOutlet weak var indicator: UIActivityIndicatorView!
      
      let weather = WeatherDataSource.shared
-     let urlStr = "https://www.metaweather.com/api/location/search/?query=se"
+     let urlStr = "https://www.metaweather.com/api/location/"
      let imgUrlStr = "https://www.metaweather.com/static/img/weather/png/"
      
      lazy var localWeather: UILabel = {
