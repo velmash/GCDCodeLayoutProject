@@ -37,7 +37,7 @@ class ViewController: UIViewController {
           
           
           initRefresh()
-          weather.fetch(urlStr: weather.urlStr)
+          weather.fetch(query: "se")
           setConstraint()
           
           NotificationCenter.default.addObserver(forName: WeatherDataSource.weatherInfoDidUpdate, object: nil, queue: .main) { _ in    // (noti) in
@@ -76,7 +76,7 @@ extension ViewController: UITableViewDataSource {
                return cell
           } else {
                let cell = self.weatherTable.dequeueReusableCell(withIdentifier: "MainCell", for: indexPath) as! MainTableViewCell
-               let imgStr = URL(string: weather.imgUrlStr + "\(weather.info[indexPath.row].abbr).png")
+               let imgStr = URL(string: weather.url + "/static/img/weather/png/\(weather.info[indexPath.row].abbr).png")
                
                cell.localName.text = weather.region[indexPath.row].title
                cell.todayWeather.text = weather.info[0].name

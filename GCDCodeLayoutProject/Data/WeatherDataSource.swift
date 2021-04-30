@@ -13,7 +13,7 @@ class WeatherDataSource {
      static let shared = WeatherDataSource()
      static let weatherInfoDidUpdate = Notification.Name(rawValue: "weatherInfoDidUpdate")
      
-     let urlStr = "https://www.metaweather.com/api/location/"
+     let url = "https://www.metaweather.com/"
      let imgUrlStr = "https://www.metaweather.com/static/img/weather/png/"
      
      let apiQueue = DispatchQueue(label: "ApiQueue")
@@ -28,10 +28,10 @@ class WeatherDataSource {
 //MARK: - Weather Data Fetch
 extension WeatherDataSource {
      
-     func fetch(urlStr: String) {
+     func fetch(query: String) {
           self.group.enter()
           apiQueue.async {
-               guard let weatherURL = URL(string: urlStr + "search/?query=se") else {
+               guard let weatherURL = URL(string: self.url + "/api/location/search/?query=" + query) else {
                     print("Can't not found this URL")
                     return
                }
@@ -52,7 +52,7 @@ extension WeatherDataSource {
           apiQueue.async {
                for woeid in self.region {
                     self.group.enter()
-                    let url = urlStr + String(woeid.woeid)
+                    let url = self.url + "/api/location/\(String(woeid.woeid))"
                     
                     guard let infoURL = URL(string: url) else {
                          print("Can't not found this URL")
