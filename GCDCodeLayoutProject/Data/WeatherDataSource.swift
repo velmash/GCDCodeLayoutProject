@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 class WeatherDataSource {
-//MARK: - Properties
+     //MARK: - Properties
      static let shared = WeatherDataSource()
      static let weatherInfoDidUpdate = Notification.Name(rawValue: "weatherInfoDidUpdate")
      
@@ -63,17 +63,26 @@ extension WeatherDataSource {
                          print("Error : string -> Json")
                          return
                     }
-     
+                    
                     do {
                          let decodedData = try JSONDecoder().decode(Information.self, from: infoData)
-                         self.info.append(contentsOf: decodedData.consolidate)
+                         //self.info.append(contentsOf: decodedData.consolidate)
+                         var count = 0
+                         for i in decodedData.consolidate {
+                              if count == 2 {
+                                   break
+                              } else {
+                              self.info.append(i)
+                                   count += 1
+                              }
+                         }
                          self.group.leave()
                     } catch {
                          print(error)
                     }
                }
           }
-         
+          
           self.group.notify(queue: apiQueue) {
                NotificationCenter.default.post(name: Self.weatherInfoDidUpdate, object: nil)
           }

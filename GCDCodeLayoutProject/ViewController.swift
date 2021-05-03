@@ -9,8 +9,8 @@ import UIKit
 import SnapKit
 
 class ViewController: UIViewController {
-
-// MARK: - Properties
+     
+     // MARK: - Properties
      @IBOutlet weak var weatherTable: UITableView!
      @IBOutlet weak var indicator: UIActivityIndicatorView!
      
@@ -28,7 +28,7 @@ class ViewController: UIViewController {
      } ()
      
      
-// MARK: - ViewDidLoad
+     // MARK: - ViewDidLoad
      override func viewDidLoad() {
           super.viewDidLoad()
           // Do any additional setup after loading the view.
@@ -47,6 +47,7 @@ class ViewController: UIViewController {
                     
                     self.weatherTable.reloadData()
                     self.weatherTable.alpha = 1.0
+                    print(self.weather.info)
                }
           }
      }
@@ -79,12 +80,12 @@ extension ViewController: UITableViewDataSource {
                let imgStr = URL(string: weather.url + "/static/img/weather/png/\(weather.info[indexPath.row].abbr).png")
                
                cell.localName.text = weather.region[indexPath.row].title
-               cell.todayWeather.text = weather.info[0].name
-               cell.todayCelcius.text = "\(Int(round(weather.info[0].temp)))°C"
-               cell.todayHumadity.text = "\(weather.info[0].humidity)%"
-               cell.tomorrowWeather.text = weather.info[1].name
-               cell.tomorrowCelcius.text = "\(Int(round(weather.info[1].temp)))°C"
-               cell.tomorrowHumadity.text = "\(weather.info[1].humidity)%"
+               cell.todayWeather.text = weather.info[indexPath.row * 2].name
+               cell.todayCelcius.text = "\(Int(round(weather.info[indexPath.row * 2].temp)))°C"
+               cell.todayHumadity.text = "\(weather.info[indexPath.row * 2].humidity)%"
+               cell.tomorrowWeather.text = weather.info[indexPath.row * 2 + 1].name
+               cell.tomorrowCelcius.text = "\(Int(round(weather.info[indexPath.row * 2 + 1].temp)))°C"
+               cell.tomorrowHumadity.text = "\(weather.info[indexPath.row * 2 + 1].humidity)%"
                downloadImage(from: imgStr!, cell: cell)
                
                cell.selectionStyle = .none
@@ -131,3 +132,22 @@ extension ViewController {
           }
      }
 }
+/*
+extension UIImage {
+     
+     func getImg(weather: WeatherDataSource, day: Int) -> UIImage {
+          DispatchQueue.global().async {
+               guard let imgURL = URL(string: weather.url + "/static/img/weather/png/\(weather.info[day].abbr).png") else {
+                    return Error
+               }
+               
+               guard let data = try Data(contentsOf: imgURL) else {
+                    return
+               }
+               
+               return UIImage(data: data)
+          }
+     }
+     
+}
+*/
