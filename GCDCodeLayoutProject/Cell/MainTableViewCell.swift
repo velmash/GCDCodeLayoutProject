@@ -40,7 +40,6 @@ class MainTableViewCell: UITableViewCell {
      lazy var todayImage: UIImageView = UIImageView()
      lazy var tomorrowImage: UIImageView = UIImageView()
      
-     
      lazy var todayWeather: UILabel = {
           let lbl = UILabel(frame: .zero)
           lbl.font = UIFont.systemFont(ofSize: 11)

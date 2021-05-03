@@ -9,23 +9,22 @@ import Foundation
 import UIKit
 
 // MARK: - Image 추출
-extension ViewController {
-     func getData(from url: URL, completion: @escaping (Data?, URLResponse?, Error?) -> ()) {
-          URLSession.shared.dataTask(with: url, completionHandler: completion).resume()
-     }
-     
-     func downloadImage(from url: URL, cell: MainTableViewCell) {
-          getData(from: url) { data, response, error in
-               guard let data = data, error == nil else {
-                    return
-               }
-               DispatchQueue.main.async() {
-                    cell.todayImage.image = UIImage(data: data)
-                    cell.tomorrowImage.image = UIImage(data: data)
+extension UIImageView {
+     func load(url: String) {
+          if let url = URL(string: "https://www.metaweather.com/static/img/weather/png/\(url).png") {
+               DispatchQueue.global().async { [weak self] in
+                    if let data = try? Data(contentsOf: url) {
+                         if let image = UIImage(data: data) {
+                              DispatchQueue.main.async {
+                                   self?.image = image
+                              }
+                         }
+                    }
                }
           }
      }
 }
+
 
 // MARK: - 당겨서 새로고침
 extension ViewController {

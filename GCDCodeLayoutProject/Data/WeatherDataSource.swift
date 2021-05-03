@@ -14,13 +14,14 @@ class WeatherDataSource {
      static let weatherInfoDidUpdate = Notification.Name(rawValue: "weatherInfoDidUpdate")
      
      let url = "https://www.metaweather.com/"
-     let imgUrlStr = "https://www.metaweather.com/static/img/weather/png/"
      
      let apiQueue = DispatchQueue(label: "ApiQueue")
      let group = DispatchGroup()
      
      private(set) var region: [Region] = []
-     private(set) var info: [Weather] = []
+     private(set) var todayInfo: [Weather] = []
+     private(set) var tomorrowInfo: [Weather] = []
+     
      private(set) var images: [Data] = []
 }
 
@@ -66,13 +67,16 @@ extension WeatherDataSource {
                     
                     do {
                          let decodedData = try JSONDecoder().decode(Information.self, from: infoData)
-                         //self.info.append(contentsOf: decodedData.consolidate)
+                        
                          var count = 0
                          for i in decodedData.consolidate {
                               if count == 2 {
                                    break
+                              } else if count == 0{
+                                   self.todayInfo.append(i)
+                                   count += 1
                               } else {
-                              self.info.append(i)
+                                   self.tomorrowInfo.append(i)
                                    count += 1
                               }
                          }

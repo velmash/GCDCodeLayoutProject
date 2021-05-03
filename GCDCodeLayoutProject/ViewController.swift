@@ -47,7 +47,6 @@ class ViewController: UIViewController {
                     
                     self.weatherTable.reloadData()
                     self.weatherTable.alpha = 1.0
-                    print(self.weather.info)
                }
           }
      }
@@ -77,16 +76,16 @@ extension ViewController: UITableViewDataSource {
                return cell
           } else {
                let cell = self.weatherTable.dequeueReusableCell(withIdentifier: "MainCell", for: indexPath) as! MainTableViewCell
-               let imgStr = URL(string: weather.url + "/static/img/weather/png/\(weather.info[indexPath.row].abbr).png")
                
                cell.localName.text = weather.region[indexPath.row].title
-               cell.todayWeather.text = weather.info[indexPath.row * 2].name
-               cell.todayCelcius.text = "\(Int(round(weather.info[indexPath.row * 2].temp)))°C"
-               cell.todayHumadity.text = "\(weather.info[indexPath.row * 2].humidity)%"
-               cell.tomorrowWeather.text = weather.info[indexPath.row * 2 + 1].name
-               cell.tomorrowCelcius.text = "\(Int(round(weather.info[indexPath.row * 2 + 1].temp)))°C"
-               cell.tomorrowHumadity.text = "\(weather.info[indexPath.row * 2 + 1].humidity)%"
-               downloadImage(from: imgStr!, cell: cell)
+               cell.todayWeather.text = weather.todayInfo[indexPath.row].name
+               cell.todayCelcius.text = "\(Int(round(weather.todayInfo[indexPath.row].temp)))°C"
+               cell.todayHumadity.text = "\(weather.todayInfo[indexPath.row].humidity)%"
+               cell.tomorrowWeather.text = weather.tomorrowInfo[indexPath.row].name
+               cell.tomorrowCelcius.text = "\(Int(round(weather.tomorrowInfo[indexPath.row].temp)))°C"
+               cell.tomorrowHumadity.text = "\(weather.tomorrowInfo[indexPath.row].humidity)%"
+               cell.todayImage.load(url: weather.todayInfo[indexPath.row].abbr)
+               cell.tomorrowImage.load(url: weather.tomorrowInfo[indexPath.row].abbr)
                
                cell.selectionStyle = .none
                return cell
@@ -132,22 +131,3 @@ extension ViewController {
           }
      }
 }
-/*
-extension UIImage {
-     
-     func getImg(weather: WeatherDataSource, day: Int) -> UIImage {
-          DispatchQueue.global().async {
-               guard let imgURL = URL(string: weather.url + "/static/img/weather/png/\(weather.info[day].abbr).png") else {
-                    return Error
-               }
-               
-               guard let data = try Data(contentsOf: imgURL) else {
-                    return
-               }
-               
-               return UIImage(data: data)
-          }
-     }
-     
-}
-*/
