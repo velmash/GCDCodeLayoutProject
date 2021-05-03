@@ -71,7 +71,8 @@ class MainTableViewCell: UITableViewCell {
           lbl.font = UIFont.systemFont(ofSize: 11)
           return lbl
      } ()
-     var tomorrowHumadity: UILabel = {
+     
+     lazy var tomorrowHumadity: UILabel = {
           let lbl = UILabel(frame: .zero)
           lbl.font = UIFont.systemFont(ofSize: 11)
           return lbl
